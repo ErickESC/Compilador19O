@@ -1,0 +1,18 @@
+process miPrograma
+   integer a,b=5,c;
+   if (a+b*3) then
+        if (a+b) then
+     
+        else
+        endif
+   else
+        if (a-b) then
+     
+        else
+        endif
+   endif
+  do
+  while (a+b*3);
+  for a=3 until 10 do with step 1 do
+  endfor
+endprocess
