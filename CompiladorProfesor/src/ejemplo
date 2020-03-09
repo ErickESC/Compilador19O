@@ -2,8 +2,6 @@ process miPrograma
    integer a,b=5,c;
    if (a+b*3) then
         if (a+b) then
-        	do
-  			while (a+b*3);
      
         else
         endif
@@ -15,6 +13,4 @@ process miPrograma
    endif
   do
   while (a+b*3);
-  for a=3 until 10 do with step 1 do
-  endfor
 endprocess

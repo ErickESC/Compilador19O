@@ -108,6 +108,10 @@ public class Parser {
 	}
 
 	/**
+	 ***********************************************************************EXPRESIONES*******************************************************************
+	 */
+	
+	/**
 	 * Este metodo es llamado por expresion
 	 * obtiene !Expresion*+/!Expreson
 	 */
@@ -214,6 +218,10 @@ public class Parser {
 	}
 
 	/**
+	 ***********************************************************************STATEMENTs*******************************************************************
+	 */
+	
+	/**
 	 * STATEMENT_INTEGER
 	 */
 
@@ -301,8 +309,98 @@ public class Parser {
 		}while(preanalisis.getSubType()!=TokenSubType.SEMICOLON);
 	}
 
+	/**
+	 * STATEMENT_REAL
+	 */
+
+	private void STATEMENT_REAL() {
+		Token preanalisis;
+		Simbolo s=null;
+		preanalisis=lexico.getToken();
+		TokenSubType tr;
+		Token tipo;
+		Token nombre;
+
+		if(!se_espera(preanalisis,TokenSubType.REALNUMBER))
+			error("Error, se espera un integer y se recibio "+preanalisis+"  Linea:"+preanalisis.getLine());
+		
+		do{
+			preanalisis=lexico.getToken();
+			if(!se_espera(preanalisis,TokenType.IDENTIFIER))
+				error(TokenType.IDENTIFIER, preanalisis.getLine());
+			nombre=preanalisis;
+			preanalisis=lexico.getToken();
+
+			//NO SE ESPERA PUNTO Y COMA
+			if(!se_espera(preanalisis,TokenSubType.SEMICOLON)) {
+
+				//NO SE ESPERA SIMBOLO DE ASIGNACION
+				if(!se_espera(preanalisis,TokenType.ASSIGNMENT)) {
+
+					//SE CREA UN Simbolo CON EL LEXEMA Y EL TIPO (REAL)
+					s=new Simbolo(nombre.getLexeme(),TokenSubType.INTEGERNUMBER);
+					if(!tablaSimbolos.containsKey(s.getNombre()))
+						tablaSimbolos.put(s.getNombre(), s);
+					else//SI LA VARIABLE YA ESTA DECLARADA, HAY UN ERROR
+						error("Error: La variable "+s.getNombre()+" ya fue declarada");
+					if(!se_espera(preanalisis,TokenSubType.COMMA))
+						error("Se esperaba una COMA, una ASIGNACION o un PUNTO Y COMA", preanalisis.getLine());
 
 
+				}else {
+
+					preanalisis=lexico.getToken(); 
+
+					//SE VIENE DE UNA ASIGNACION, ENTONCES ESPERO UN ENTERO
+					
+					if(preanalisis.getSubType()==TokenSubType.REALNUMBER) {
+						tr=TokenSubType.REALNUMBER;
+
+						if(!se_espera(preanalisis,tr))
+							error(tr,preanalisis.getLine());
+						else {
+							s=new Simbolo(nombre.getLexeme(), Integer.parseInt(preanalisis.getLexeme()),TokenSubType.REALNUMBER);
+
+							if(!tablaSimbolos.containsKey(s.getNombre()))
+								tablaSimbolos.put(s.getNombre(), s);
+							else
+								error("Error: La variable "+s.getNombre()+" ya fue declarada");
+						}
+
+						preanalisis=lexico.getToken();
+
+						if(preanalisis.getSubType()!=TokenSubType.SEMICOLON) {
+
+							if(!se_espera(preanalisis,TokenSubType.COMMA))
+								error("Se esperaba una COMA, una ASIGNACION o un PUNTO Y COMA", preanalisis.getLine());
+							
+						}
+
+					}	
+				}
+
+			}else {
+
+				//SE ESPERA UN PUNTO Y COMA
+				if(!se_espera(preanalisis,TokenSubType.SEMICOLON))
+					error("Se esperaba una COMA, una ASIGNACION o un PUNTO Y COMA", preanalisis.getLine());
+
+				s=new Simbolo(nombre.getLexeme(),TokenSubType.REALNUMBER);
+				if(!tablaSimbolos.containsKey(s.getNombre()))
+					tablaSimbolos.put(s.getNombre(), s);
+				else
+					error("Error: La variable "+s.getNombre()+" ya fue declarada");
+
+			}
+
+
+		}while(preanalisis.getSubType()!=TokenSubType.SEMICOLON);
+	}
+
+	/**
+	 ***********************************************************************OPERACION*******************************************************************
+	 */
+	
 	/**
 	 * Identifica que tipo de operacion a reconocer. Observe
 	 * que en esta version solo se reconoce una operacion por
@@ -369,14 +467,18 @@ public class Parser {
 	}
 
 	/**
-	 * COMIENZA EXPRESION
-	 */
+	***********************************************************************EXPRESION*******************************************************************
+	*/
 
 	private void EXPRESION() {
 
 		E();
 	}
 
+	/**
+	 ***********************************************************************    IF   *******************************************************************
+	 */
+	
 	/**
 	 * Inicia el reconocimiento de un SI.Observe que si la estructura
 	 * Si no tiene un Sino
@@ -449,6 +551,10 @@ public class Parser {
 		}		
 	}
 
+	/**
+	 ***********************************************************************    OPERACIONES   *******************************************************************
+	 */
+	
 	Token OPERACIONES(String t) {
 		Token aux;
 		boolean f;
@@ -462,6 +568,10 @@ public class Parser {
 		return aux;
 	}
 
+	
+	/**
+	 ***********************************************************************    READ   *******************************************************************
+	 */
 
 	private void READ() {
 		Token aux;
@@ -493,6 +603,10 @@ public class Parser {
 
 	}
 
+	/**
+	 ***********************************************************************    PROCESS   *******************************************************************
+	 */
+	
 	void PROCESS() {
 		Token aux;
 		aux=lexico.getToken();
@@ -512,6 +626,11 @@ public class Parser {
 			error(TokenSubType.ENDPROCESS);
 
 	}
+	
+	/**
+	 ***********************************************************************    LISTA READ   *******************************************************************
+	 */
+	
 	private void LISTAREAD() {
 		Token aux;
 		aux=lexico.getToken();
@@ -526,6 +645,10 @@ public class Parser {
 			System.out.println("termina listaread");
 		}
 	} 
+	
+	/**
+	 ***********************************************************************    WHILE   *******************************************************************
+	 */
 	
 	private void WHILE(String t) {
 		Token aux;
@@ -545,10 +668,10 @@ public class Parser {
 		generador.incrementaNumeroEtiqueta();
 		etiqueta2=generador.getNumeroEtiqueta();
 		generador.incrementaNumeroEtiqueta();
-		generador.emitir(t+"ETIQUETAY:");
-		generador.emitir(t+t+"cmp "+expresion+" true");
-		generador.emitir(t+t+"jmpc ETIQUETA"+etiqueta1);
-		generador.emitir(t+t+"jump ETIQUETA"+etiqueta2);
+		generador.emitir(t+"ETIQUETA");
+		generador.emitir(t+"cmp "+expresion+" true");
+		generador.emitir(t+"jmpc ETIQUETA"+etiqueta1);
+		generador.emitir(t+"jump ETIQUETA"+etiqueta2);
 		
 		aux = lexico.getToken();
 		if(!se_espera(aux, TokenSubType.RIGHT_PARENTHESIS))
@@ -571,6 +694,10 @@ public class Parser {
 			generador.emitir(t+"jump ETIQUETA"+etiqueta2+":");
 		}
 	}
+	
+	/**
+	 ***********************************************************************    DO WHILE   *******************************************************************
+	 */
 	
 	private void DOWHILE(String t) {
 		Token aux;
@@ -612,6 +739,10 @@ public class Parser {
 				error(TokenSubType.COLON,aux.getLine());
 		}
 	}
+	
+	/**
+	 ***********************************************************************    SWITCH   *******************************************************************
+	 */
 	
 	public void SWITCH() {
 		Token aux;
@@ -657,6 +788,10 @@ public class Parser {
 		}
 	}
 	
+	/**
+	 ***********************************************************************    OPCION   *******************************************************************
+	 */
+	
 	private void OPCION() {
 		Token aux;
 		aux = lexico.getToken();
@@ -665,6 +800,10 @@ public class Parser {
 		else
 			System.out.println("pasó opcion");
 	}
+	
+	/**
+	 ***********************************************************************    LISTA DE CASOS   *******************************************************************
+	 */
 	
 	private void LISTADECASOS() {
 		Token aux;
@@ -681,6 +820,10 @@ public class Parser {
 			error(TokenSubType.DEFAULT);
 	}
 
+	/**
+	 ***********************************************************************    CASO   *******************************************************************
+	 */
+	
 	private void CASO() {
 		Token aux;
 		aux = lexico.getToken();
@@ -708,6 +851,10 @@ public class Parser {
 			error("Error en : o ,",aux.getLine());
 	}
 	
+	/**
+	 ***********************************************************************    ID_IN   *******************************************************************
+	 */
+	
     /**
      * método que se llama dentro de la función for para saber si lo que se espera es 
      * diferente a un identificador o un numero entero
@@ -718,6 +865,10 @@ public class Parser {
 		if (!(se_espera(preanalisis, TokenType.IDENTIFIER) || se_espera(preanalisis, TokenSubType.INTEGERNUMBER)))
 			error("Error, se espera identificador o entero");
 	}
+	
+	/**
+	 ***********************************************************************    FOR   *******************************************************************
+	 */
 	
 	private void FOR() {
 		Token preanalisis;
@@ -775,6 +926,10 @@ public class Parser {
 		}
 
 	}
+	
+	/**
+	 ***********************************************************************    LISTA PARAMETROS   *******************************************************************
+	 */
 	
 	private void LISTAPARAMETROS(){
 		Token aux;
