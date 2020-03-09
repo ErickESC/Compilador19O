@@ -1,5 +1,7 @@
 process miPrograma
    integer a,b=5,c;
+   double t=5.5;
+   
    if (a+b*3) then
         if (a+b) then
      

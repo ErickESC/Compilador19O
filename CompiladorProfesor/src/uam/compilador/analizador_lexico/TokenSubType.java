@@ -20,8 +20,6 @@ public enum TokenSubType {
 	FUNCTION("function"),
 	ENDFUNCTION("endfunction"),
 	RETURN("return"),
-	BOOLEAN("boolean"),
-	CHARACTER("character"),
 	FALSE("false"),
 	TRUE("true"),
 	SWITCH("switch"),
@@ -39,7 +37,8 @@ public enum TokenSubType {
     IN_LINES("/_*_*_/"),
     IN_LINE("/_/"),
 	PROCESS("process"),ENDPROCESS("endprocess"),READ("read"),WRITE("write"),
-	IF("if"),THEN("then"),ELSE("else"),ENDIF("endif"),INTEGER("integer");
+	IF("if"),THEN("then"),ELSE("else"),ENDIF("endif"),INTEGER("integer"), REAL("double"), BOOLEAN("boolean"),
+	CHARACTER("character");
 	private final String pattern;
 	private TokenSubType(String pattern) {
 		this.pattern = pattern;
