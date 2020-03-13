@@ -1,0 +1,24 @@
+
+
+begin process
+	cmp 3 entero
+	jmpc ETIQUETA1
+	jump ETIQUETA2
+	jmpc ETIQUETA1
+	jump ETIQUETAX
+	ETIQUETA2:
+	cmp 1 entero
+	jmpc ETIQUETA3
+	cmp 2 entero
+	jmpc ETIQUETA3
+	jump ETIQUETA4
+	jmpc ETIQUETA3
+	jump ETIQUETAX
+	ETIQUETA4:
+	jmpc ETIQUETA5
+	jump ETIQUETA6
+	ETIQUETA5:
+	jump ETIQUETAX
+	ETIQUETA6:
+	ETIQUETAX:
+end process

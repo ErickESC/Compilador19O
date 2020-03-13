@@ -1,0 +1,20 @@
+
+
+
+process miPrograma
+	boolean r,f=true,t,j=false,g=true;
+	switch ( abc ) do
+	3: 
+	
+		
+	
+	break;
+	1,2:
+	
+	break;
+	default:
+	
+	break;
+	endswitch
+endprocess
+   

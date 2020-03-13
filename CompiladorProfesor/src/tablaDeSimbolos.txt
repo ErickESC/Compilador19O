@@ -1,0 +1,7 @@
+Tabla de simbolos: 
+
+Simbolo [Nombre=f, ivalor=0, rvalor=0.0, bvalor=true, chvalor=null]
+Simbolo [Nombre=g, ivalor=0, rvalor=0.0, bvalor=true, chvalor=null]
+Simbolo [Nombre=j, ivalor=0, rvalor=0.0, bvalor=false, chvalor=null]
+Simbolo [Nombre=r, ivalor=0, rvalor=0.0, bvalor=false, chvalor=null]
+Simbolo [Nombre=t, ivalor=0, rvalor=0.0, bvalor=false, chvalor=null]
