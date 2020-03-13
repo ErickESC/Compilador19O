@@ -18,6 +18,9 @@ public class Simbolo {
 		this.nombre = nombre;
 		this.stype = stype;
 	}
+	/*
+	 * Integer
+	 */
 	public Simbolo(String nombre, int ivalor,TokenSubType  stype) {
 		super();
 		this.nombre = nombre;
@@ -25,6 +28,9 @@ public class Simbolo {
 		this.defaultValor = false;
 		this.stype = stype;
 	}	
+	/*
+	 * Real
+	 */
 	public Simbolo(String nombre,double rvalor, TokenSubType  stype) {
 		super();
 		this.nombre = nombre;
@@ -39,6 +45,9 @@ public class Simbolo {
 		this.defaultValor = false;
 		this.stype = stype;
 	}
+	/*
+	 * Char
+	 */
 	public Simbolo(String nombre,String chvalor, TokenSubType  stype) {
 		super();
 		this.nombre = nombre;
