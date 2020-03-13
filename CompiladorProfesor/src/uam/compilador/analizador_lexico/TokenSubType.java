@@ -36,6 +36,8 @@ public enum TokenSubType {
     WITH("with"),
     STEP("step"),
     ENDFOR("endfor"),
+    REAL("real"),
+    CHAR("char"),
     IN_LINES("/_*_*_/"),
     IN_LINE("/_/"),
 	PROCESS("process"),ENDPROCESS("endprocess"),READ("read"),WRITE("write"),

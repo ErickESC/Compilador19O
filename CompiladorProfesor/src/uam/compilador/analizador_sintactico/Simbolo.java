@@ -7,9 +7,10 @@ public class Simbolo {
 	private String nombre;
 	private int ivalor=0;
 	private double rvalor=0.0;
+	private boolean bvalor=false;
+	private String chvalor;
 	private boolean defaultValor=true;
 	private TokenSubType stype;
-
 	
 
 	public Simbolo(String nombre,TokenSubType  stype) {
@@ -31,10 +32,25 @@ public class Simbolo {
 		this.defaultValor = false;
 		this.stype = stype;
 	}
+	public Simbolo(String nombre,boolean bvalor, TokenSubType  stype) {
+		super();
+		this.nombre = nombre;
+		this.bvalor = bvalor;
+		this.defaultValor = false;
+		this.stype = stype;
+	}
+	public Simbolo(String nombre,String chvalor, TokenSubType  stype) {
+		super();
+		this.nombre = nombre;
+		this.chvalor = chvalor;
+		this.defaultValor = false;
+		this.stype = stype;
+	}
 	public Simbolo(String nombre) {
 		super();
 		this.nombre = nombre;
 	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -54,6 +70,19 @@ public class Simbolo {
 	public double getRvalor() {
 		return rvalor;
 	}
+	public int getBvalor() {
+		return ivalor;
+	}
+	public void setBValor(boolean bvalor) {
+		this.bvalor = bvalor;
+	}
+	public void setChValor(String chvalor) {
+		this.chvalor = chvalor;
+	}
+	public String getChvalor() {
+		return chvalor;
+	}
+
 	public boolean isDefaultValor() {
 		return defaultValor;
 	}
@@ -69,7 +98,7 @@ public class Simbolo {
 	}
 	@Override
 	public String toString() {
-		return "Simbolo [Nombre=" + nombre + ", ivalor=" + ivalor + ", rvalor=" + rvalor + "]";
+		return "Simbolo [Nombre=" + nombre + ", ivalor=" + ivalor + ", rvalor=" + rvalor +", bvalor=" + bvalor + ", chvalor=" + chvalor + "]";
 	}
 	
 }

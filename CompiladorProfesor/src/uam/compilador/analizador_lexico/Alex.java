@@ -125,9 +125,22 @@ public class Alex implements LexicoAnalyzer {
 							
 						}
 						
-					}else
-						
-						 if(caracter=='!')
+					}else if(caracter=='\'') {
+						lexeme="";
+						lexeme=lexeme+caracter;
+						index++;
+						caracter=input.charAt(index);
+						if(Character.isLetter(caracter)) {
+							index++;
+							caracter=input.charAt(index);
+							if(caracter=='\'') {
+								aux=new Token(TokenType.CHAR,TokenSubType.CHAR,lexeme);
+								aux.setLine(linea);
+								tlist.add(aux);
+							}
+						}
+						index++;
+					}else if(caracter=='!')
 						   {
 							   lexeme="";
 							     lexeme=lexeme+caracter;
@@ -321,6 +334,36 @@ public class Alex implements LexicoAnalyzer {
 													}
 											
 												}
+											}else if(caracter=='*') { 
+												lexeme=lexeme+caracter;
+												index++;
+												caracter=input.charAt(index);
+
+												boolean comentario=false;
+												while(comentario==false&&index<input.length()) {
+													if(caracter=='*') {
+														lexeme=lexeme+caracter;
+														index++;
+														caracter=input.charAt(index);
+														if(caracter=='/') {
+															lexeme=lexeme+caracter;
+															index++;
+															caracter=input.charAt(index);
+															comentario=true;
+															System.out.println("Comentario: "+lexeme);
+														}else {
+															lexeme=lexeme+caracter;
+															index++;
+															caracter=input.charAt(index);
+														}
+
+
+													}else {
+														lexeme=lexeme+caracter;
+														index++;
+														caracter=input.charAt(index);
+													}
+												}
 											}
 											
 										}else {
@@ -460,7 +503,7 @@ public class Alex implements LexicoAnalyzer {
 	}
 
 	public static void main(String[] args) {
-		new Alex("ejemplo.txt");
+		new Alex("src/ejemplo.txt");
 
 	}
 
